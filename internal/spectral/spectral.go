@@ -81,7 +81,7 @@ func Coherence(x, y []float64) []float64 {
 		crossPow := crossRe*crossRe + crossIm*crossIm
 		pxxk := dftX[k].Re*dftX[k].Re + dftX[k].Im*dftX[k].Im
 		pyyk := dftY[k].Re*dftY[k].Re + dftY[k].Im*dftY[k].Im
-		denom := pxxk * pyyk
+		denom := bandDenom(pxxk, pyyk)
 		if denom > 0 {
 			coh[k] = crossPow / denom
 		}
