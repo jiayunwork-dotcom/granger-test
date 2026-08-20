@@ -9,7 +9,7 @@ import (
 func adfOnResiduals(residuals []float64) (float64, float64) {
 	n := len(residuals)
 	if n < 4 {
-		return 0, 0.01
+		return 0, 1
 	}
 
 	T := n - 1
@@ -22,7 +22,7 @@ func adfOnResiduals(residuals []float64) (float64, float64) {
 
 	beta, rss, err := ols.Fit(X, y)
 	if err != nil || len(beta) == 0 {
-		return 0, 0.01
+		return 0, 1
 	}
 
 	gamma := beta[0]
@@ -32,13 +32,12 @@ func adfOnResiduals(residuals []float64) (float64, float64) {
 		sumX2 += X[t][0] * X[t][0]
 	}
 	if sumX2 == 0 {
-		return 0, 0.01
+		return 0, 1
 	}
 	seGamma := se / math.Sqrt(sumX2)
 	if seGamma == 0 {
-		return 0, 0.01
+		return 0, 1
 	}
 	tStat := gamma / seGamma
-	_ = adfPValueApprox(tStat, n)
-	return tStat, 0.01
+	return tStat, adfPValueApprox(tStat, n)
 }
