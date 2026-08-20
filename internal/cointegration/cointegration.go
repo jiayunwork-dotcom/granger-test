@@ -287,51 +287,6 @@ func VECM(data [][]float64, rank, lagOrder int) (*VECMResult, error) {
 	}, nil
 }
 
-// adfOnResiduals 对残差执行简化的 ADF 检验
-func adfOnResiduals(residuals []float64) (float64, float64) {
-	n := len(residuals)
-	if n < 4 {
-		return 0, 1
-	}
-
-	// ΔY_t = γ * Y_{t-1} + ε_t（不含截距，因为残差均值为零）
-	T := n - 1
-	X := make([][]float64, T)
-	y := make([]float64, T)
-	for t := 0; t < T; t++ {
-		X[t] = []float64{residuals[t]}
-		y[t] = residuals[t+1] - residuals[t]
-	}
-
-	beta, rss, err := ols.Fit(X, y)
-	if err != nil || len(beta) == 0 {
-		return 0, 1
-	}
-
-	// t 统计量
-	gamma := beta[0]
-	se := math.Sqrt(rss / float64(T-1))
-	// 计算 X'X 的逆对角元
-	sumX2 := 0.0
-	for t := 0; t < T; t++ {
-		sumX2 += X[t][0] * X[t][0]
-	}
-	if sumX2 == 0 {
-		return 0, 1
-	}
-	seGamma := se / math.Sqrt(sumX2)
-	if seGamma == 0 {
-		return 0, 1
-	}
-	tStat := gamma / seGamma
-
-	// 使用 MacKinnon 近似临界值（协整残差）
-	// 近似 p 值
-	pValue := adfPValueApprox(tStat, n)
-
-	return tStat, pValue
-}
-
 // adfPValueApprox 近似 ADF 检验 p 值（基于渐近分布）
 func adfPValueApprox(tStat float64, n int) float64 {
 	// 简化的近似：使用正态分布的尾部概率并调整
