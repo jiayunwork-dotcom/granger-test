@@ -68,10 +68,12 @@ func SelectLag(rssValues []float64, n int, criterion string) int {
 
 // LikelihoodRatio 似然比检验。
 func LikelihoodRatio(logLRestricted, logLUnrestricted float64, dfDiff int) (lrStat, pValue float64) {
-	_ = logLRestricted
-	_ = logLUnrestricted
-	_ = dfDiff
-	return 0, 1
+	lrStat = 2 * (logLUnrestricted - logLRestricted)
+	if lrStat < 0 {
+		lrStat = 0
+	}
+	pValue = 1 - chiSquareCDF(lrStat, float64(dfDiff))
+	return lrStat, pValue
 }
 
 // RSquared 决定系数。
