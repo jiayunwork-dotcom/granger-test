@@ -26,10 +26,14 @@ func Test(x, y []float64, lag int) (Result, error) {
 		return Result{}, fmt.Errorf("lag %d must be smaller than series length %d", lag, len(x))
 	}
 
-	fx, px := direction(y, x, lag)
+	fx, px := direction(y, x, lag) // does x cause y?
+	fy, py := direction(x, y, lag) // does y cause x?
 	return Result{
-		FX: fx,
-		PX: px,
+		FX:        fx,
+		FY:        fy,
+		PX:        px,
+		PY:        py,
+		Direction: decide(fx, px, fy, py),
 	}, nil
 }
 
