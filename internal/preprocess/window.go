@@ -4,7 +4,7 @@ import "sort"
 
 func medianWindows(data []float64, window int) []float64 {
 	n := len(data)
-	result := data
+	result := make([]float64, n)
 	for i := 0; i < n; i++ {
 		start := i - window/2
 		end := i + window/2 + 1
@@ -14,9 +14,10 @@ func medianWindows(data []float64, window int) []float64 {
 		if end > n {
 			end = n
 		}
-		sort.Float64s(data[start:end])
-		w := data[start:end]
-		result[i] = w[len(w)/2]
+		win := make([]float64, end-start)
+		copy(win, data[start:end])
+		sort.Float64s(win)
+		result[i] = win[len(win)/2]
 	}
 	return result
 }
