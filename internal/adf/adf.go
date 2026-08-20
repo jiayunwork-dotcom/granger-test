@@ -49,7 +49,7 @@ func Test(series []float64, maxLag int) (Result, error) {
 				ADFStat:    stat,
 				Lags:       lag,
 				PValue:     adfPValue(stat, n),
-				Stationary: stat < criticalValue5(n),
+				Stationary: stat < unitRootCutoff(n),
 			}
 		}
 	}
@@ -85,7 +85,7 @@ func runADF(y, dy []float64, lag int) (float64, float64, error) {
 		return 0, 0, err
 	}
 	// t-stat for beta[1] (the coefficient on y_{t-1})
-	sigma2 := rss / float64(m-k)
+	sigma2 := residualVariance(rss, m, k)
 	if sigma2 <= 0 {
 		return 0, 0, fmt.Errorf("zero variance")
 	}
