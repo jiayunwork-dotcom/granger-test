@@ -87,12 +87,10 @@ func RSquared(rss, tss float64) float64 {
 // AdjRSquared 调整的 R²。
 func AdjRSquared(rss, tss float64, n, k int) float64 {
 	r2 := RSquared(rss, tss)
-	nf := float64(n)
-	kf := float64(k)
-	if nf-kf-1 <= 0 {
+	if n-k-1 <= 0 {
 		return 0
 	}
-	return 1 - (1-r2)*(nf-1)/(nf-kf-1)
+	return 1 - (1-r2)*adjPenalty(n, k)
 }
 
 func chiSquareCDF(x, df float64) float64 {
