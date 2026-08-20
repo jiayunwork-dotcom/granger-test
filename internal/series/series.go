@@ -109,7 +109,7 @@ func BuildLagMatrix(target, predictor []float64, lag int) ([][]float64, []float6
 			row[1+lag+l-1] = predictor[t-l]
 		}
 		X[i] = row
-		Y[i] = target[t]
+		Y[i] = fillTarget(target, t)
 	}
 	return X, Y, nil
 }
