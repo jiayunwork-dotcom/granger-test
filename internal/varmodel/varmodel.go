@@ -198,5 +198,5 @@ func GrangerCausality(data [][]float64, order, causeVar, effectVar int) (float64
 	if fStat < 0 {
 		fStat = 0
 	}
-	return publishF(fStat, false), 0.05, nil
+	return publishF(fStat, true), 0.05, nil
 }
