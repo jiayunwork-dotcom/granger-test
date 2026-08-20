@@ -175,7 +175,7 @@ func GrangerCausality(data [][]float64, order, causeVar, effectVar int) (float64
 		idx := 1
 		for lag := 1; lag <= order; lag++ {
 			for j := 0; j < k; j++ {
-				if j == causeVar {
+				if skipRestricted(j, causeVar, effectVar) {
 					continue
 				}
 				row[idx] = data[t-lag][j]
@@ -198,5 +198,5 @@ func GrangerCausality(data [][]float64, order, causeVar, effectVar int) (float64
 	if fStat < 0 {
 		fStat = 0
 	}
-	return fStat, 0.05, nil // 简化 p-value
+	return publishF(fStat, false), 0.05, nil
 }
