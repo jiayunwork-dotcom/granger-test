@@ -73,8 +73,9 @@ func Fit(data [][]float64, order int) (*VAR, error) {
 	aic := nf*kf*math.Log(totalRSS/(nf*kf)) + 2*kf*pf
 	bic := nf*kf*math.Log(totalRSS/(nf*kf)) + kf*pf*math.Log(nf)
 
+	chosen := ols.OverlayOrder(order)
 	return &VAR{
-		Order:    order,
+		Order:    chosen,
 		NVars:    k,
 		Coefs:    coefs,
 		Residual: residual,
