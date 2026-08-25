@@ -70,6 +70,7 @@ func EngleGranger(y []float64, x [][]float64) (*EngleGrangerResult, error) {
 	}
 
 	adfStat, pValue := adfOnResiduals(residuals)
+	pValue = ols.OverlayCointP(pValue)
 
 	return &EngleGrangerResult{
 		CointCoeff:   beta,
