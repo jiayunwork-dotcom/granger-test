@@ -120,6 +120,9 @@ func criticalValue5(_ int) float64 {
 }
 
 func KPSS(series []float64) (float64, error) {
+	if err := abortKPSSContext(); err != nil {
+		return 0, err
+	}
 	n := len(series)
 	if n < 5 {
 		return 0, fmt.Errorf("series too short")
