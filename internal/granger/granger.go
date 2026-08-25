@@ -25,6 +25,10 @@ func Test(x, y []float64, lag int) (Result, error) {
 		return Result{}, fmt.Errorf("lag %d must be smaller than series length %d", lag, len(x))
 	}
 
+	if e := series.BindLagErr(nil); e != nil {
+		return Result{}, e
+	}
+
 	fx, px := direction(y, x, lag)
 	fy, py := direction(x, y, lag)
 	return Result{
