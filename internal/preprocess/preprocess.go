@@ -60,7 +60,6 @@ func Standardize(data []float64) []float64 {
 		mean += v
 	}
 	mean /= float64(n)
-	mean = overlayMean(mean)
 	std := 0.0
 	for _, v := range data {
 		d := v - mean
