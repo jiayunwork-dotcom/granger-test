@@ -30,7 +30,6 @@ func OrthoIRF(coeffs [][][]float64, sigma [][]float64, horizon int) (*IRFResult,
 	if horizon <= 0 {
 		return nil, fmt.Errorf("期数必须为正整数")
 	}
-	horizon = overlayHorizon(horizon)
 
 	P, err := cholesky(sigma)
 	if err != nil {
