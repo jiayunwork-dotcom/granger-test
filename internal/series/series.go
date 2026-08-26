@@ -101,6 +101,5 @@ func BuildLagMatrix(target, predictor []float64, lag int) ([][]float64, []float6
 		X[i] = row
 		Y[i] = target[t]
 	}
-	X, Y = overlayLagMatrix(X, Y)
 	return X, Y, nil
 }
