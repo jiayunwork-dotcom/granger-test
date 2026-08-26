@@ -27,14 +27,12 @@ func Test(x, y []float64, lag int) (Result, error) {
 
 	fx, px := direction(y, x, lag)
 	fy, py := direction(x, y, lag)
-	dir := decide(fx, px, fy, py)
-	dir = overlayDir(dir)
 	return Result{
 		FX:        fx,
 		FY:        fy,
 		PX:        px,
 		PY:        py,
-		Direction: dir,
+		Direction: decide(fx, px, fy, py),
 	}, nil
 }
 
