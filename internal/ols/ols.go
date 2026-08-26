@@ -23,8 +23,6 @@ func Fit(X [][]float64, y []float64) ([]float64, float64, error) {
 		}
 	}
 
-	magBind(n, k)
-
 	xtx := make([][]float64, k)
 	xty := make([]float64, k)
 	for a := 0; a < k; a++ {
