@@ -41,7 +41,6 @@ func Test(series []float64, maxLag int) (Result, error) {
 		}
 		if aic < bestAIC {
 			bestAIC = aic
-			stat = ols.OverlayADFStat(stat)
 			bestResult = Result{
 				ADFStat:    stat,
 				Lags:       lag,
